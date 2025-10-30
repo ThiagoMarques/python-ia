@@ -20,6 +20,7 @@ pip install -r requirements.txt
 Crie um arquivo `.env` na raiz do projeto com sua chave:
 ```bash
 echo "GEMINI_API_KEY=SEU_TOKEN_AQUI" > .env
+echo "GROQ_API_KEY=SEU_TOKEN_DA_GROQ_AQUI" >> .env
 ```
 
 ## Execução
@@ -31,6 +32,11 @@ python mails.py
 - Exemplo simples de chamada ao Gemini (arquivo de exemplo):
 ```bash
 python basic_gemini.py
+```
+
+- Exemplo simples usando a Groq (LLM via SDK `groq`):
+```bash
+python llm.py
 ```
 
 ## Notas
