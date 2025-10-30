@@ -36,7 +36,7 @@ python basic_gemini.py
 
 - Exemplo simples usando a Groq (LLM via SDK `groq`):
 ```bash
-python llm.py
+python groq.py
 ```
 
 ## Notas
@@ -47,6 +47,7 @@ python llm.py
 ## Estrutura
 - `mails.py`: gera 10 e-mails fictícios (assunto, corpo, destinatário) e cria um resumo para cada um.
 - `basic_gemini.py`: exemplo mínimo de uso do Gemini.
+- `groq.py`: exemplo mínimo usando a Groq (chat simples).
 - `requirements.txt`: dependências do projeto.
 
 ## Solução de problemas
