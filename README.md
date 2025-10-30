@@ -8,7 +8,9 @@ Projeto de exemplos em Python para consumir a API do Google Gemini (google-gener
 
 ## Instalação
 ```bash
-cd /Users/thiagomarques/Documents/GitHub/python-ia
+# navegue até a pasta do projeto (ajuste o caminho conforme seu ambiente)
+cd python-ia
+
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
