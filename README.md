@@ -39,6 +39,12 @@ python basic_gemini.py
 python groq_client.py
 ```
 
+### Dicas de uso com Groq
+- Modelos comuns: `llama-3.1-8b-instant` (rápido), `llama-3.1-70b-versatile` (mais capaz).
+- Exemplo de chamada customizada (edite `groq_client.py`):
+  - Ajuste `model` e/ou `prompt` em `simple_chat()`.
+  - Garanta que `GROQ_API_KEY` esteja definido no `.env`.
+
 ## Notas
 - Se estiver em Python 3.9, podem aparecer avisos como FutureWarning e NotOpenSSLWarning. Não bloqueiam a execução, mas recomenda-se atualizar para Python 3.10+.
 - O script `mails.py` tenta forçar a resposta do modelo em JSON. Se a resposta vier cercada em bloco ```json, o script faz a extração e o parsing automaticamente.
