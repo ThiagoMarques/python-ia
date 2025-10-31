@@ -1,6 +1,6 @@
 # python-ia
 
-Projeto de exemplos em Python para consumir a API do Google Gemini (google-generativeai).
+Projeto de exemplos em Python para consumir a API do Google Gemini (google-generativeai) e a Groq.
 
 ## Requisitos
 - Python 3.10 ou superior (recomendado). Python 3.9 funciona, mas pode emitir avisos de EOL/SSL.
@@ -24,7 +24,7 @@ echo "GROQ_API_KEY=SEU_TOKEN_DA_GROQ_AQUI" >> .env
 ```
 
 ## Execução
-- Gerar 10 e-mails de exemplo e resumos:
+- Gerar e resumir e-mails (configure a quantidade direto em `mails.py`, alterando `quantidade_de_emails`):
 ```bash
 python mails.py
 ```
@@ -39,11 +39,21 @@ python basic_gemini.py
 python groq_client.py
 ```
 
+- Exemplo de consumo da Groq com extração em função (`llm.py`):
+```bash
+python llm.py
+```
+
+- Gerar rotas a partir da lista de cidades e salvar um CSV com os campos principais:
+```bash
+python routes.py
+```
+
 ### Dicas de uso com Groq
 - Modelos comuns: `llama-3.1-8b-instant` (rápido), `llama-3.1-70b-versatile` (mais capaz).
-- Exemplo de chamada customizada (edite `groq_client.py`):
-  - Ajuste `model` e/ou `prompt` em `simple_chat()`.
-  - Garanta que `GROQ_API_KEY` esteja definido no `.env`.
+- `groq_client.py` mostra uma chamada direta via SDK; `llm.py` encapsula a criação do cliente (`get_groq_client`) e expõe `simple_chat` para reuso.
+- Ajuste `model`, `prompt` e parâmetros em `simple_chat()` conforme sua necessidade.
+- Garanta que `GROQ_API_KEY` esteja definido no `.env`.
 
 ## Notas
 - Se estiver em Python 3.9, podem aparecer avisos como FutureWarning e NotOpenSSLWarning. Não bloqueiam a execução, mas recomenda-se atualizar para Python 3.10+.
@@ -51,9 +61,11 @@ python groq_client.py
 - Para depurar, você pode imprimir o texto bruto retornado pelo modelo antes de fazer o `json.loads`.
 
 ## Estrutura
-- `mails.py`: gera 10 e-mails fictícios (assunto, corpo, destinatário) e cria um resumo para cada um.
+- `mails.py`: gera e-mails fictícios (quantidade configurável) e cria um resumo para cada um.
 - `basic_gemini.py`: exemplo mínimo de uso do Gemini.
 - `groq_client.py`: exemplo mínimo usando a Groq (chat simples).
+- `llm.py`: versão modular do consumo da Groq, com funções reutilizáveis.
+- `routes.py`: gera rotas entre as cidades listadas em `cidades.txt`, resume cada rota e salva os campos principais em `planning.csv` já formatado para planilha.
 - `requirements.txt`: dependências do projeto.
 
 ## Solução de problemas
