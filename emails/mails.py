@@ -1,10 +1,16 @@
 import os
 import re
 import json
+from pathlib import Path
+
 from dotenv import load_dotenv
 import google.generativeai as genai
 
-load_dotenv()
+
+BASE_DIR = Path(__file__).resolve().parent
+RESUMOS_FILE = BASE_DIR / "resumos.txt"
+
+load_dotenv(BASE_DIR.parent / ".env")
 
 genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 
@@ -62,14 +68,14 @@ def salvar_resumos(resumos):
 
     proximo_indice = 1
     try:
-        with open('resumos.txt', 'r', encoding='utf-8') as f:
+        with RESUMOS_FILE.open('r', encoding='utf-8') as f:
             existentes = re.findall(r'Resumo do e-mail (\d+):', f.read())
             if existentes:
                 proximo_indice = int(existentes[-1]) + 1
     except FileNotFoundError:
         pass
 
-    with open('resumos.txt', 'a', encoding='utf-8') as f:
+    with RESUMOS_FILE.open('a', encoding='utf-8') as f:
         for deslocamento, resumo in enumerate(resumos):
             indice = proximo_indice + deslocamento
             f.write(f'Resumo do e-mail {indice}:\n')
@@ -77,7 +83,7 @@ def salvar_resumos(resumos):
     print("Resumos salvos com sucesso.")
 
 def carregar_resumos():
-    with open('resumos.txt', 'r') as f:
+    with RESUMOS_FILE.open('r', encoding='utf-8') as f:
         return f.readlines()
     print("Resumos carregados com sucesso.")
     return None

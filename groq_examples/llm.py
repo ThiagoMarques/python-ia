@@ -1,9 +1,13 @@
 import os
+from pathlib import Path
+
 from dotenv import load_dotenv
 from groq import Groq
 
 
-load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent
+
+load_dotenv(BASE_DIR.parent / ".env")
 
 
 def get_groq_client() -> Groq:
@@ -31,3 +35,4 @@ def simple_chat(prompt: str, model: str = "llama-3.1-8b-instant") -> str:
 
 if __name__ == "__main__":
     print(simple_chat("Explique em uma frase o que é a Groq."))
+

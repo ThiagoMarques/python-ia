@@ -24,9 +24,9 @@ echo "GROQ_API_KEY=SEU_TOKEN_DA_GROQ_AQUI" >> .env
 ```
 
 ## Execução
-- Gerar e resumir e-mails (configure a quantidade direto em `mails.py`, alterando `quantidade_de_emails`):
+- Gerar e resumir e-mails (configure a quantidade direto em `emails/mails.py`, ajustando `quantidade_de_emails`):
 ```bash
-python mails.py
+python emails/mails.py
 ```
 
 - Exemplo simples de chamada ao Gemini (arquivo de exemplo):
@@ -36,22 +36,27 @@ python basic_gemini.py
 
 - Exemplo simples usando a Groq (LLM via SDK `groq`):
 ```bash
-python groq_client.py
+python groq_examples/groq_client.py
 ```
 
 - Exemplo de consumo da Groq com extração em função (`llm.py`):
 ```bash
-python llm.py
+python groq_examples/llm.py
 ```
 
 - Gerar rotas a partir da lista de cidades e salvar um CSV com os campos principais:
 ```bash
-python routes.py
+python routes/routes.py
+```
+
+- Gerar resumos a partir de um CSV com textos (espera coluna `text`):
+```bash
+python summaries/summaries.py
 ```
 
 ### Dicas de uso com Groq
 - Modelos comuns: `llama-3.1-8b-instant` (rápido), `llama-3.1-70b-versatile` (mais capaz).
-- `groq_client.py` mostra uma chamada direta via SDK; `llm.py` encapsula a criação do cliente (`get_groq_client`) e expõe `simple_chat` para reuso.
+- `groq_examples/groq_client.py` mostra uma chamada direta via SDK; `groq_examples/llm.py` encapsula a criação do cliente (`get_groq_client`) e expõe `simple_chat` para reuso.
 - Ajuste `model`, `prompt` e parâmetros em `simple_chat()` conforme sua necessidade.
 - Garanta que `GROQ_API_KEY` esteja definido no `.env`.
 
@@ -61,11 +66,20 @@ python routes.py
 - Para depurar, você pode imprimir o texto bruto retornado pelo modelo antes de fazer o `json.loads`.
 
 ## Estrutura
-- `mails.py`: gera e-mails fictícios (quantidade configurável) e cria um resumo para cada um.
+- `emails/`
+  - `mails.py`: gera e-mails fictícios (quantidade configurável) e cria um resumo para cada um.
+  - `resumos.txt`: saída cumulativa dos resumos.
+- `groq_examples/`
+  - `groq_client.py`: exemplo mínimo usando a Groq (chat simples).
+  - `llm.py`: versão modular do consumo da Groq, com funções reutilizáveis.
+- `routes/`
+  - `routes.py`: gera rotas entre as cidades listadas em `cidades.txt`, resume cada rota e salva os campos principais em `planning.csv` pronto para planilha.
+  - `cidades.txt`: lista de pontos de partida/destino.
+  - `planning.csv`: último resultado gerado (UTF-8 BOM para abrir no Excel).
+- `summaries/`
+  - `summaries.py`: gera resumos para cada linha do CSV de entrada (exige coluna `text`).
+  - `example.csv`: arquivo de exemplo com textos.
 - `basic_gemini.py`: exemplo mínimo de uso do Gemini.
-- `groq_client.py`: exemplo mínimo usando a Groq (chat simples).
-- `llm.py`: versão modular do consumo da Groq, com funções reutilizáveis.
-- `routes.py`: gera rotas entre as cidades listadas em `cidades.txt`, resume cada rota e salva os campos principais em `planning.csv` já formatado para planilha.
 - `requirements.txt`: dependências do projeto.
 
 ## Solução de problemas

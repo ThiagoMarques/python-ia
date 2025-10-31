@@ -1,18 +1,23 @@
-import pandas as pd
-import os
 import csv
+import os
 from io import StringIO
+from pathlib import Path
+
 from dotenv import load_dotenv
 import google.generativeai as genai
 
-load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent
+CIDADES_FILE = BASE_DIR / "cidades.txt"
+PLANNING_FILE = BASE_DIR / "planning.csv"
 
-genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
+load_dotenv(BASE_DIR.parent / ".env")
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 def generate_routes():
     model = genai.GenerativeModel('gemini-2.5-flash')
     quantidade_de_rotas = 2
-    cidades = open('cidades.txt', 'r').read()
+    cidades = CIDADES_FILE.read_text(encoding="utf-8").strip()
     print(f"Cidades: {cidades}")
     prompt = (
         f"Gere {quantidade_de_rotas} rotas de viagem entre as cidades abaixo: {cidades} e exiba:\n"
@@ -31,8 +36,8 @@ def generate_routes():
     return response.text
 
 def save_routes(routes):
-    if os.path.exists('planning.csv'):
-        os.remove('planning.csv')
+    if PLANNING_FILE.exists():
+        PLANNING_FILE.unlink()
     if not routes:
         print("Nenhuma rota encontrada.")
         return
@@ -47,7 +52,7 @@ def save_routes(routes):
     )
     response = model.generate_content(prompt)
     print(f"Resumo para csv: {response.text}")
-    with open('planning.csv', 'a', newline='', encoding='utf-8-sig') as file:
+    with PLANNING_FILE.open('a', newline='', encoding='utf-8-sig') as file:
         writer = csv.writer(file)
         lines = [line.strip("-• ") for line in response.text.splitlines() if line.strip()]
         for line in lines:
